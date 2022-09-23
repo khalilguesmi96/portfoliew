@@ -1,0 +1,32 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+
+    <style type="text/css">
+        #div_id_tags > div{
+            max-height: 100px;
+            overflow-y: scroll;
+            border:1px solid #888;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+
+
+    <div class="main-container">
+          <h3>Create Post</h3>
+
+          <form method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.media}}
+            {{form|crispy}}
+            <input class="btn btn-primary" type="submit" value="Submit Post">
+          </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,130 @@
+Metadata-Version: 2.1
+Name: html-css-gen
+Version: 2.2.1
+Summary: snippet to merge html/css files
+Home-page: https://bitbucket.org/guangyong/html_css_gen/
+Author: guangyong
+Author-email: guangyong@live.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+
+This is a simple example package to combine html/css files.
+![Image of Yaktocat](https://image-mgt.sgp1.digitaloceanspaces.com/gy/shortlisted.jpg)
+
+**Quick start**
+
+```
+from html_css_gen import template
+payload = {'1': 'file_A',
+           '2': 'file_B',
+           '3': 'file_C'
+           ...
+           ...
+           ...
+         }
+emailobj=template.init_template(**payload)
+output=emailobj.combine_element()
+print(output)
+```
+---
+**combine_element()**
+---
+
+**Description**
+
+Combine all the element in the email object
+
+**Return**
+
+A combined html string output
+
+**Attention**
+
+This is compulsory to be called upon init (for now)
+
+---
+**add_parent_html(change_data,]html_tags)**
+---
+**Description**
+
+	Add a parent tag to the combined html file
+
+-   change_data - the **html file variable in str** to manipulate
+-   html_tags - [[start_tag, end_tag]
+
+**Return**
+
+A combined html file with a new wrapper tag
+
+---
+**add_customised_css(change_data, css_input)**
+---
+**Description**
+
+Add on universal css after the html file is created. Ideal for adding code relating to the combined output. The additional css string will be appended at the bottom of the css output
+
+ - **change_data** - the html file variable in str to manipulate
+- **css_input**- the customised css snippet you wish to append to your current css
+
+**Return**
+
+A combined html string output with the customised css
+
+---
+populate(change_data, **payload,)
+---
+**Description**
+
+Substitute the values you wish to replace in the html file
+
+- change_data - the html file variable in str to manipulate
+- **payload - a dictionary with the key being the label in the html file in which you wish the value to be replaced and the value being the data to replace with
+
+**Additional Info**
+
+1.  Insert {variable name} in the parts of html files which you wishes to have the value replaced
+
+2.  Call the method with a dictionary payload that has the variable name inserted in the html as the key and the value as the value you wish to replace with
+
+---
+**export(filename, export_data)**
+---
+**Description**
+
+Export the combined file into the desired location
+1.  filename - refers to the path in which the file is to be exported
+2.  export_data - being the html string file you wish to export, output of the method above
+
+**Return**
+None
+
+---
+**Full working example**
+---
+```
+from html_css_gen import template
+
+payload = {'1': 'fileA',
+           '2': 'fileB',
+           '3': 'fileC'
+           }
+emailobj=template.init_template(**payload)
+template = email_obj.combine_element()
+customised_css = '''@media screen and (min-width: 600px) {
+                    body {
+                        width: 600px; !important
+                        }
+                    }'''
+template_css = email_obj.add_customised_css(
+    change_data=template, css_input=customised_css)
+template_html = email_obj.add_parent_html(change_data=template_css,
+                                          html_tags=[['<div class="sudo">', '</div>']])
+final_data = email_obj.populate(template_html,**{'fieldA': 'valueA', 'fieldB': 'valueB'})
+email_obj.export(filename='output/unread_email', export_data=final_data)
+```
+
+
